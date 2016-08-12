@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>It编程技术学习交流系统的管理后台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link rel="StyleSheet" href="css/dtree.css" type="text/css" />
+<script type="text/javascript" src="js/dtree.js"></script>
+</head>
+<body scroll="no">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="79" background="images/top_bg.gif">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="500"><img src="images/top_left.gif" width="500" height="79"></td>
+          <td>&nbsp;</td>
+          <td width="500" height="79"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td><img src="images/top_right_a.gif" width="500" height="47"></td>
+              </tr>
+              <tr>
+                <td><table width="500" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="150">
+                         <img src="images/top_right_b1.gif" width="150" height="32">
+                    </td>
+                    <td width="146" height="32" background="images/top_right_b2.gif" class="white">
+                      	用户：administrator
+                    </td>
+                   <!--  <td width="74"><a href="pages/based/passwd.html" target="page">
+                    	<img src="images/top_right_b6.gif" width="74" height="32" border="0"></a></td> -->
+                    <td width="50"><a href="logout.jsp">
+                    	<img src="images/top_right_b3.gif" width="50" height="32" border="0"></a></td>
+                    <td width="50"><a href="#">
+                    	<img src="images/top_right_b4.gif" width="50" height="32" border="0"></a></td>
+                    <td width="30">
+                    	<img src="images/top_right_b5.gif" width="30" height="32">
+                    </td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="100%"><table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" style="background-repeat: repeat-x;">
+        <tr>
+          <td width="175" height="100%" valign="top">
+          <table width="175" height="100%" border="0" cellspacing="0" cellpadding="0" background="images/menu_bg.gif">
+              <tr>
+                <td height="25"><img src="images/menu_top.gif" width="175" height="25"></td>
+              </tr>
+              <tr>
+                <td height="100%" style="background-image:url(images/menu_bgT.gif); background-repeat:no-repeat" valign="top"><div class="dtree">
+                    <script type="text/javascript">
+					d = new dTree('d');
+					d.config.stepDepth = 1;
+					d.config.useStatusText = true;
+					 
+				    d.add(0,-1,' <strong>后台管理</strong>');
+				    d.add(1,0,'论坛类别管理');
+					d.add(101,1,'管理论坛类别','showFrumAll',"",'page');
+					d.add(102,1,'添加论坛类别','addForumType.jsp',"",'page');
+					
+					
+					d.add(2,0,'版面管理');
+					d.add(201,2,'管理帖子','showBulltinAll',"",'page');
+					//d.add(202,2,'帖子审核','manage/shaixuan_a.html',"",'page');
+
+					
+					d.add(3,0,'用户管理');
+				    d.add(301,3,'管理用户','showUserAll',"",'page');
+					//d.add(302,3,'审核用户','manage/info.html',"",'page');
+					 
+					 
+					document.writeln(d);
+					</script>
+                </div></td>
+              </tr>
+              <tr>
+                <td height="31">
+                  <img src="images/menu_foot.gif" width="175" height="31">
+                </td>
+              </tr>
+            </table>
+           </td>
+          <td>
+           <iframe src="images/loginBg.png" width="100%" height="100%" frameborder="0" scrolling="yes" name="page">
+           </iframe>
+          </td>
+        </tr>
+      </table>
+     </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC 
+"-//Apache Struts//XWork Validator 1.0.3//EN" 
+  "http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="pageSize">
+		<field-validator type="conversion">
+			<param name="repopulateField">true</param>
+			<message>每页显示的商品数目必须是整数</message>
+		</field-validator>
+		<field-validator type="int">
+			<param name="min">1</param>
+			<message>每页显示的商品数目至少为${min}</message>
+		</field-validator>
+	</field>
+</validators>

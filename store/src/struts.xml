@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 指定Struts 2配置文件的DTD信息 -->
+
+<!DOCTYPE struts PUBLIC
+	
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.multipart.saveDir" value="D:\goods"></constant>
+	<constant name="struts.custom.i18n.resources" value="mess"></constant>
+
+	<package name="zhangxia" extends="struts-default">
+
+		<interceptors>
+			<interceptor name="login" class="action.LoginInterceptor" />
+			<interceptor name="security" class="action.SecurityInterceptor" />
+		</interceptors>
+
+		<global-results>
+			<result name="login">/nologin.jsp</result>
+			<result name="security">/nosecurity.jsp</result>
+		</global-results>
+
+		<action name="loginPre" class="action.LoginAction" method="internationalization">
+
+			<result name="success">/login.jsp</result>
+
+		</action>
+
+		<!--下载文档 -->
+		<action name="down" class="action.DownAction">
+
+			<result name="success" type="stream">
+				<param name="contentType">${contentType}</param>
+				<param name="inputName">targetFile</param>
+				<param name="contentDisposition">attachment;filename="${downFileName}"</param>
+				<param name="bufferSize">4096</param>
+			</result>
+
+		</action>
+		
+		<!-- 注册 -->
+		<action name="manager_register" class="action.RegisterAction"
+			method="managerRegister">
+
+			<result name="success">/manager_register_result.jsp</result>
+			<result name="error">/manager_register_result.jsp</result>
+			<result name="input">/manager_register.jsp</result>
+
+		</action>
+	
+		<!-- 管理员登录 -->
+		<action name="manager_login" class="action.LoginAction">
+
+			<result name="success">/manager_code_success.jsp</result>
+			<result name="codeerror">/code_error.jsp</result>
+			<result name="loginerror">/login_error.jsp</result>
+			
+		</action>
+
+	   <!-- 显示开店的货物信息，管理员的主页面  -->
+		<action name="manager_goods_action" class="action.ManagerGoodsAction">
+
+			<result name="success">/manager_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 添加商品 -->
+		<action name="manager_insert_goods_action" class="action.InsertGoodsAction">
+
+			<interceptor-ref name="fileUpload">
+				<param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,image/pjpeg</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack" />
+			<param name="savePath">/upload</param>
+			<result name="success">/manager_insert_goods_success.jsp</result>
+			<result name="error">/manager_insert_goods_error.jsp</result>
+			<result name="input">/manager_insert_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 删除商品 -->
+		<action name="manager_delete_goods_action" class="action.DeleteGoodsAction">
+
+			<result name="success">/manager_delete_goods_result.jsp</result>
+			<result name="error">/manager_delete_goods_result.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 更新商品 -->
+		<action name="manager_update_goods_action" class="action.UpdateGoodsAction">
+
+			<param name="savePath">/upload</param>
+			<result name="success">/manager_update_goods_success.jsp</result>
+			<result name="error">/manager_update_goods_error.jsp</result>
+			<result name="input">/manager_update_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 更新得到货物数量 -->
+		<action name="update" class="action.DeleteGoodsAction" method="getGoodsNumber">
+
+			<result name="success">/manager_update_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 查询本店中的商品  -->
+		<action name="manager_select_goods_action" class="action.ManagerSelectGoodsAction">
+
+			<result name="success">/manager_select_goods_show.jsp</result>
+			<result name="input">/manager_select_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 分页显示商品的信息-->
+		<action name="manager_page_goods_action" class="action.ManagerPageGoodsAction">
+
+			<result name="success">/manager_page_goods_show.jsp</result>
+			<result name="input">/manager_page_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+		<!-- 设置密保信息 -->
+		<action name="manager_set_security" class="action.SetSecurityAction">
+
+			<result name="success">/manager_set_security_success.jsp</result>
+			<result name="error">/manager_set_security_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+			
+		</action>
+		
+		 <!-- 显示所有对当前用户 的商品评价 -->
+		<action name="manager_all_evaluate" class="action.ManagerAllEvaluateAction">
+
+			<result name="success">/manager_all_evaluate.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!--取出商品的全部信息，  取出商品的总数， 商品库存总数  -->
+		<action name="manager_all_goods" class="action.AllGoodsAction">
+			
+			<result name="success">/index.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+		
+  		<!-- 查询电子商城系统中的商品信息  ，通过输入要搜索的商品名称或者开店用户的ID-->
+		<action name="manager_select_allgoods" class="action.SelectAllGoodsAction">
+	
+			<result name="success">/manager_select_allgoods_show.jsp</result>
+			<result name="input">/manager_select_allgoods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!--  分页显示本商城中商品信息-->
+		<action name="manager_page_allgoods" class="action.PageAllGoodsAction">
+
+			<result name="success">/manager_page_allgoods_show.jsp</result>
+			<result name="input">/manager_page_allgoods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!--  显示商品信息 ，点击图片后显示出商品信息 -->
+		<action name="manager_find_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber">
+
+			<result name="success">/manager_find.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 显示购物商品信息    查找购物车信息:购买商品的总和，商品列表，  -->
+		<action name="manager_buycar" class="action.BuyCarAction">
+
+			<result name="success">/manager_buycar.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 分页显示的商品数目 -->
+		<action name="manager_page_buycar" class="action.PageBuyCarAction">
+
+			<result name="success">/manager_page_buycar_show.jsp</result>
+			<result name="input">/manager_page_buycar.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 添加到购物车 -->
+		<action name="manager_insert_buycar" class="action.InsertBuyCarAction">
+
+			<result name="success">/manager_insert_buycar_success.jsp</result><!-- 点击后跳到manager_buycar_find_action -->
+			<result name="error">/manager_insert_buycar_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 由manager_insert_buycar 转到这里 ， -->
+		<action name="manager_buycar_find_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber2">
+
+			<result name="success">/manager_find.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 移除购物车中的商品信息 -->
+		<action name="manager_delete_buycar" class="action.DeleteBuyCarAction">
+
+			<result name="success">/manager_delete_buycar.jsp</result>
+			<result name="error">/manager_delete_buycar.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 给商品做出评价 -->
+		<action name="manager_comment" class="action.EvaluateAction">
+
+			<result name="success">/manager_evaluate_success.jsp</result>
+			<result name="error">/manager_evaluate_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!--  -->
+		<action name="manager_evaluate_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber3">
+
+			<result name="success">/manager_find.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 用户注册 -->
+		<action name="normal_register" class="action.RegisterAction"
+			method="normalRegister">
+
+			<result name="success">/normal_register_result.jsp</result>
+			<result name="error">/normal_register_result.jsp</result>
+			<result name="input">/normal_register.jsp</result>
+
+		</action>
+		
+		<!-- 用户登录 -->
+		<action name="normal_login" class="action.LoginAction">
+
+			<result name="success">/normal_code_success.jsp</result>
+			<result name="codeerror">/code_error.jsp</result>
+			<result name="loginerror">/login_error.jsp</result>
+
+		</action>
+
+  		<!--  设置保密电话 -->
+		<action name="normal_set_security" class="action.SetSecurityAction">
+
+			<result name="success">/normal_set_security_success.jsp</result>
+			<result name="error">/normal_set_security_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+		</action>
+		
+  		<!-- 商城首页 显示商城全部的商品信息 -->
+		<action name="normal_all_goods" class="action.AllGoodsAction">
+
+			<result name="success">/normal_all_goods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+  		
+  		<!-- 搜索商品信息    通过输入商品名称或者管理员的ID进行查找 -->
+		<action name="normal_select_allgoods" class="action.SelectAllGoodsAction">
+
+			<result name="success">/normal_select_allgoods_show.jsp</result>
+			<result name="input">/normal_select_allgoods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 分页显示  商品的信息-->
+		<action name="normal_page_allgoods" class="action.PageAllGoodsAction">
+
+			<result name="success">/normal_page_allgoods_show.jsp</result>
+			<result name="input">/normal_page_allgoods.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 点击图片得到该商品详细的信息 -->
+		<action name="normal_find_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber">
+
+			<result name="success">/normal_find.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+		</action>
+
+  		<!-- 查看购物车信息 -->
+		<action name="normal_buycar" class="action.BuyCarAction">
+
+			<result name="success">/normal_buycar.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 分页显示 购物车信息 -->
+		<action name="normal_page_buycar" class="action.PageBuyCarAction">
+
+			<result name="success">/normal_page_buycar_show.jsp</result>
+			<result name="input">/normal_page_buycar.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+		</action>
+
+  		<!-- 添加购物车商品 -->
+		<action name="normal_insert_buycar" class="action.InsertBuyCarAction">
+
+			<result name="success">/normal_insert_buycar_success.jsp</result><!-- 成功后跳到normal_buycar_find_action -->
+			<result name="error">/normal_insert_buycar_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 有normal_insert_buycar转到这里，显示添加的商品信息  -->
+		<action name="normal_buycar_find_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber2">
+
+			<result name="success">/normal_find.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+		
+		
+  		<!-- 删除中购物车商品 -->
+		<action name="normal_delete_buycar" class="action.DeleteBuyCarAction">
+
+			<result name="success">/normal_delete_buycar.jsp</result>
+			<result name="error">/normal_delete_buycar.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+		
+  		<!-- 用户的评价 操作-->
+		<action name="normal_comment" class="action.EvaluateAction">
+
+			<result name="success">/normal_evaluate_success.jsp</result><!--调到 normal_evaluate_action -->
+			<result name="error">/normal_evaluate_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 有normal_comment转到这块，显示刚刚评论后的信息 -->
+		<action name="normal_evaluate_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber3">
+
+			<result name="success">/normal_find.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!-- 找回密码  -->		
+		<action name="find_password" class="action.FindPasswordAction">
+
+			<result name="success">/find_password_success.jsp</result>
+			<result name="error">/find_password_error.jsp</result>
+
+		</action>
+
+  		<!-- 修改密码  -->		
+		<action name="update_password" class="action.UpdatePasswordAction">
+
+			<result name="success">/update_password_success.jsp</result>
+			<result name="error">/update_password_error.jsp</result>
+			<result name="input">/update_password.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="security" />
+
+		</action>
+
+  		<!-- 用户的注销 -->		
+		<action name="logout_action" class="action.LogoutAction">
+
+			<result name="success">/logout.jsp</result>
+			<result name="error">/logout_error.jsp</result>
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="login" />
+
+		</action>
+
+  		<!--  显示商城的全部商品信息 -->		
+		<action name="all_goods" class="action.AllGoodsAction">
+
+			<result name="success">/all_goods.jsp</result>
+
+		</action>
+
+  		<!-- 通过商品的id 查找到商品的信息  并显示-->		
+		<action name="find_action" class="action.DeleteGoodsAction"
+			method="getGoodsNumber">
+
+			<result name="success">/find.jsp</result>
+
+		</action> 
+
+  		<!-- 查询电子商城系统中的商品信息  -->		
+		<action name="select_allgoods" class="action.SelectAllGoodsAction">
+
+			<result name="success">/select_allgoods_show.jsp</result>
+			<result name="input">/select_allgoods.jsp</result>
+
+		</action>
+
+  		<!-- 分页显示本商城中商品信息 -->		
+		<action name="page_allgoods" class="action.PageAllGoodsAction">
+
+			<result name="success">/page_allgoods_show.jsp</result>
+			<result name="input">/page_allgoods.jsp</result>
+
+		</action>
+		
+	</package>
+
+</struts>

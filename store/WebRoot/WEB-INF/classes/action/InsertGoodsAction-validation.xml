@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC 
+"-//Apache Struts//XWork Validator 1.0.3//EN" 
+  "http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="goods.number">
+		<field-validator type="requiredstring">
+			<message>商品编号是必填项。</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">15</param>
+			<param name="trim">true</param>
+			<message>商品编号的长度必须在 ${minLength} 至 ${maxLength} 之间。</message>
+		</field-validator>
+	</field>
+	
+	<field name="goods.name">
+		<field-validator type="requiredstring">
+			<message>商品名字是必填项。</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">15</param>
+			<param name="trim">true</param>
+			<message>商品名字的长度必须在 ${minLength} 至 ${maxLength} 之间。</message>
+		</field-validator>
+	</field>
+	<field name="goods.price">
+		<field-validator type="double">
+			<param name="minInclusive">0</param>
+			<param name="trim">true</param>
+			<message>商品价格至少为${minInclusive}</message>
+		</field-validator>
+	</field>
+	<field name="goods.amount">
+		<field-validator type="int">
+			<param name="min">0</param>
+			<param name="trim">true</param>
+			<message>商品数量至少为${min}</message>
+		</field-validator>
+	</field>
+	<field name="goods.publishDate">
+		<field-validator type="required">
+			<message>发布日期是必填项。</message>
+		</field-validator>
+		<field-validator type="date">
+			<param name="min">1800-01-01</param>
+			<param name="trim">true</param>
+			<message>发布日期必须在 ${min} 之后。</message>
+		</field-validator>
+	</field>
+	<field name="upload">
+		<field-validator type="required">
+			<message>商品封面是必填项。</message>
+		</field-validator>
+	</field>
+	<field name="goods.introduction">
+		<field-validator type="requiredstring">
+			<message>内容简介是必填项。</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">50</param>
+			<param name="trim">true</param>
+			<message>内容简介的长度必须在 ${minLength} 至 ${maxLength} 之间。</message>
+		</field-validator>
+	</field>
+</validators>

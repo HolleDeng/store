@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC 
+"-//Apache Struts//XWork Validator 1.0.3//EN" 
+  "http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="select">
+		<field-validator type="requiredstring">
+			<message>这是必填项。</message>
+		</field-validator>
+		<field-validator type="stringlength">
+			<param name="minLength">1</param>
+			<param name="maxLength">15</param>
+			<param name="trim">true</param>
+			<message>长度必须在 ${minLength} 至 ${maxLength} 之间。</message>
+		</field-validator>
+	</field>
+</validators>
