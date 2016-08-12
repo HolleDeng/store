@@ -1,5 +1,5 @@
 # store 
-这个是Alibaba的下一个版本
+这个是Alibaba的目前版本
 
 环境是Struts2
 myeclipse10
